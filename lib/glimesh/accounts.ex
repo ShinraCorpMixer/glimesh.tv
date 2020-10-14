@@ -48,15 +48,15 @@ defmodule Glimesh.Accounts do
   """
   def get_by_username(username, ignore_banned \\ false) when is_binary(username) do
     case ignore_banned do
-      true -> Repo.get_by(User, username: username, is_banned: false)
-      false -> Repo.get_by(User, username: username)
+      false -> Repo.get_by(User, username: username, is_banned: false)
+      true -> Repo.get_by(User, username: username)
     end
   end
 
   def get_by_username!(username, ignore_banned \\ false) when is_binary(username) do
     case ignore_banned do
-      true -> Repo.get_by!(User, username: username, is_banned: false)
-      false -> Repo.get_by!(User, username: username)
+      false -> Repo.get_by!(User, username: username, is_banned: false)
+      true -> Repo.get_by!(User, username: username)
     end
   end
 
@@ -512,5 +512,13 @@ defmodule Glimesh.Accounts do
 
   def can_stream?(user), do: user.can_stream
 
-  def can_use_payments?(user), do: user.can_payments
+  def can_use_payments?(user) do
+    user.can_payments
+  end
+
+  def ban_user(user, reason) do
+    user
+    |> User.big_scary_changeset(%{is_banned: true, ban_reason: reason})
+    |> Repo.update()
+  end
 end
