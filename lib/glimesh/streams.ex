@@ -121,7 +121,10 @@ defmodule Glimesh.Streams do
         where: u.username == ^username,
         where: c.inaccessible == false
 
-    query = unless ignore_banned, do: where(query, [user: u], u.is_banned == false), else: query
+    query = case ignore_banned do
+      true -> where(query, [user: u], u.is_banned == false)
+      false -> query
+    end
     Repo.one(query)
     |> Repo.preload([:category, :user])
   end
