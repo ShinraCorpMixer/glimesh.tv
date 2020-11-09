@@ -108,6 +108,10 @@ defmodule Glimesh.Streams do
     Repo.get_by!(Channel, id: id) |> Repo.preload([:category, :user])
   end
 
+  def get_channel(id) do
+    Repo.get_by(Channel, id: id) |> Repo.preload([:category, :user])
+  end
+
   def get_channel_for_username!(username, ignore_banned \\ false) do
     query =
       from c in Channel,
