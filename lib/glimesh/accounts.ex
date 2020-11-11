@@ -275,7 +275,7 @@ defmodule Glimesh.Accounts do
   end
 
   def change_user(user, attrs \\ %{}) do
-    User.big_scary_changeset(user, attrs)
+    User.gct_user_changeset(user, attrs)
   end
 
   @doc """
@@ -298,7 +298,7 @@ defmodule Glimesh.Accounts do
 
   def update_user(user, attrs) do
     user
-    |> User.big_scary_changeset(attrs)
+    |> User.gct_user_changeset(attrs)
     |> Repo.update()
   end
 
@@ -525,14 +525,14 @@ defmodule Glimesh.Accounts do
 
       _ ->
         user
-        |> User.big_scary_changeset(%{is_banned: true, ban_reason: reason})
+        |> User.gct_user_changeset(%{is_banned: true, ban_reason: reason})
         |> Repo.update()
     end
   end
 
   def unban_user(user) do
     user
-    |> User.big_scary_changeset(%{is_banned: false, ban_reason: nil})
+    |> User.gct_user_changeset(%{is_banned: false, ban_reason: nil})
     |> Repo.update()
   end
 
